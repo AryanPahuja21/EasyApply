@@ -1,4 +1,3 @@
-// server/actions/internshala.js
 import puppeteer from "puppeteer";
 
 export const applyToInternshala = async () => {
@@ -6,9 +5,10 @@ export const applyToInternshala = async () => {
   const page = await browser.newPage();
 
   try {
-    await page.goto("https://internshala.com/", {
+    await page.goto("https://internshala.com/internships/", {
       waitUntil: "networkidle2",
     });
+    await page.setViewport({ width: 1080, height: 1024 });
   } catch (error) {
     console.error("Failed to load page");
   }

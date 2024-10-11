@@ -7,26 +7,29 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1 className="mt-5 text-center text-4xl font-bold">Dashboard</h1>
       {session?.user?.email && (
         <>
-          <p>Welcome {session?.user?.name}</p>
-          <button
-            onClick={async () =>
-              await fetch("http://localhost:3000/api/apply/internshala", {
-                method: "POST",
-              })
-            }
-            className="px-2 py-1 bg-amber-500 rounded-md"
-          >
-            Apply to Internshala
-          </button>
-          <button
-            onClick={() => signOut()}
-            className="px-2 py-1 bg-red-500 rounded-md"
-          >
-            Logout
-          </button>
+          <p className="mt-5 text-center text-3xl font-bold">
+            Welcome {session?.user?.name}
+          </p>
+          <div className="mt-7 flex justify-center gap-3">
+            <button
+              onClick={async () =>
+                await fetch("http://localhost:3000/api/apply/internshala", {
+                  method: "POST",
+                })
+              }
+              className="px-4 py-3 font-semibold text-black bg-amber-500 rounded-md"
+            >
+              Apply to Internshala
+            </button>
+            <button
+              onClick={() => signOut()}
+              className="px-4 py-3 font-semibold text-black bg-red-500 rounded-md"
+            >
+              Logout
+            </button>
+          </div>
         </>
       )}
     </div>
