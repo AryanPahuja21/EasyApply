@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { connectToDatabase } from "@/app/lib/db";
-import User from "../../../models/user.model";
+import { User } from "../../../models/User";
 
 const handler = NextAuth({
   providers: [
@@ -15,6 +15,11 @@ const handler = NextAuth({
     async signIn({ user }) {
       await connectToDatabase();
 
+      console.log("User:", user);
+      console.log("Email:", user.email);
+      console.log("Name:", user.name);
+      console.log("Image:", user.image);
+
       if (!user.email) {
         return false;
       }
@@ -24,10 +29,9 @@ const handler = NextAuth({
 
         if (!existingUser) {
           await User.create({
-            data: {
-              email: user.email,
-              provider: "Google",
-            },
+            email: user.email,
+            name: user.name,
+            image: user.image,
           });
         }
       } catch (e) {
