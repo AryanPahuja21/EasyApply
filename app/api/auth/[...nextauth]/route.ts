@@ -15,11 +15,6 @@ const handler = NextAuth({
     async signIn({ user }) {
       await connectToDatabase();
 
-      console.log("User:", user);
-      console.log("Email:", user.email);
-      console.log("Name:", user.name);
-      console.log("Image:", user.image);
-
       if (!user.email) {
         return false;
       }
