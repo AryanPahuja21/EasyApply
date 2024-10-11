@@ -9,12 +9,13 @@ export const connectToDatabase = async () => {
   }
 
   try {
-    const { connection } = await mongoose.connect(process.env.DB_URI || "");
+    await mongoose.connect(process.env.DB_URI || "");
 
-    isConnected = connection.readyState === 1;
+    isConnected = mongoose.connection.readyState === 1; // Check if the connection is established
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error);
-    throw new Error("Failed to connect to MongoDB");
   }
 };
+
+export default mongoose.connection;
