@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const Dashboard = () => {
   const { data: session } = useSession();
@@ -13,16 +14,12 @@ const Dashboard = () => {
             Welcome {session?.user?.name}
           </p>
           <div className="mt-7 flex justify-center gap-3">
-            <button
-              onClick={async () =>
-                await fetch("http://localhost:3000/api/apply/internshala", {
-                  method: "POST",
-                })
-              }
-              className="px-4 py-3 font-semibold text-black bg-amber-500 rounded-md"
-            >
-              Apply to Internshala
-            </button>
+            <Link href="/email">
+              <button className="px-4 py-3 font-semibold text-black bg-blue-500 rounded-md">
+                Cold Email
+              </button>
+            </Link>
+
             <button
               onClick={() => signOut()}
               className="px-4 py-3 font-semibold text-black bg-red-500 rounded-md"
