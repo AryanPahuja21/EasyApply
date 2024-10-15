@@ -5,18 +5,26 @@ export async function POST(req: NextRequest) {
   const { session, recipients, subject, message } = await req.json();
 
   console.log({ session, recipients, subject, message });
+  console.log(session.data.user);
+  console.log(session.data.accessToken);
+  console.log(session.data.refreshToken);
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    host: "smtp.gmail.com",
     auth: {
+      type: "OAuth2",
+      user: session.data.user.email,
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      refreshToken: session.refreshToken,
-      accessToken: session.accessToken,
+      refreshToken: session.data.refreshToken,
+      accessToken: session.data.accessToken,
     },
   });
 
-  const fromEmail = session.user.email ?? "default@example.com";
+  const fromEmail = session.data.user.email;
+
+  console.log({ fromEmail });
 
   const mailOptions = {
     from: fromEmail,
