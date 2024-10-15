@@ -2,19 +2,21 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const Email = () => {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const session = useSession();
+
+  const [recipients, setRecipients] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("/send-email", {
-        from,
-        to: to.split(",").map((email) => email.trim()),
+      await axios.post("/api/send-email", {
+        session,
+        recipients: recipients.split(",").map((email) => email.trim()),
         subject,
         message,
       });
@@ -34,18 +36,10 @@ const Email = () => {
         <div className="mt-14 flex flex-col items-center">
           <input
             className="mt-5 px-4 py-3 w-96 text-black border-2 border-gray-300 rounded-md"
-            type="email"
-            placeholder="From (Your Email)"
-            value={from}
-            onChange={(e) => setFrom(e.target.value)}
-            required
-          />
-          <input
-            className="mt-5 px-4 py-3 w-96 text-black border-2 border-gray-300 rounded-md"
             type="text"
             placeholder="To (Recipient Emails, comma-separated)"
-            value={to}
-            onChange={(e) => setTo(e.target.value)}
+            value={recipients}
+            onChange={(e) => setRecipients(e.target.value)}
             required
           />
           <input
